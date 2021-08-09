@@ -1,0 +1,183 @@
+/* default font and line size settings */
+ 
+html {
+    font-family:  Helmet, Freesans, sans-serif; 
+	font-size: 1em;
+	font-variant: normal; 
+    line-height: 1.4;
+}
+
+/* default text color setting */
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+   
+/* box sizing settings */
+
+* { 
+	box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+}
+
+
+/* body settings */
+   
+body { 
+	margin: 0; 
+	background-color: #ffffff;
+	font-size: 12px;	
+}
+
+
+/* anchor settings */
+
+a.tip { 
+	color: #5915EB; 
+}
+
+
+/* header tag settings */
+
+h4 { 
+	margin: 0; 
+	font-size: 1.4em; 
+}
+
+h5 { 
+	margin: 0; 
+	font-size: 1.2em;  
+}
+
+
+/* horizontal ruler setting */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/* table tags */
+
+table { 
+	width: 100%; 
+}
+
+td, th { 
+	padding: 2px; 
+}
+
+th { 
+	font-weight: bold;
+	text-align: left; 	
+}
+
+table td.center { 
+	text-align: center; 
+}
+
+table td.top { 
+	vertical-align: top;
+}
+
+table th.top { 
+	vertical-align: top;
+}
+
+/* Webkit */ 
+
+::-webkit-scrollbar { 
+	width: 12px; 
+}
+::-webkit-scrollbar-track { 
+	border-radius: 10px;
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.2);  
+}
+::-webkit-scrollbar-thumb { 
+	border-radius: 10px; 
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+
+/* remove text-shadow in selection highlight */
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/* remove the gap between images, videos, audio and canvas and the bottom oftheir containers */
+
+audio,
+canvas,
+img,
+video {
+    vertical-align: middle;
+}
+
+
+/* allow only vertical resizing of textareas */
+
+textarea {
+    resize: vertical;
+}
+
+/* align helpers */ 
+
+.alignleft{
+	float: left;
+}
+
+.alignright{
+	float: right;
+}
+
+.textright { 
+	text-align: right; 
+}
+
+.textcenter  { 
+	text-align: center; 
+}
+
+/* container helpers */
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}   
+
+.note { 
+	font-weight: bold;
+	color: red;  
+}
+
+.hidden { /* hide from both screenreaders and browsers */
+    display: none !important;
+    visibility: hidden;
+}
+
+//media queries
+
+@media print {
+
+	.hidden-print { 
+		display: none; 
+	}
+
+}

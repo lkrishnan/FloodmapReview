@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Draft and Preliminary Flood Map Review</title>
+		<meta name="description" content="Flood Map Review Charlotte Mecklenburg Storm Water Services">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Place favicon and apple touch icon -->
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="apple-touch-icon" href="apple-touch-icon.png">
+	
+	<!-- app CSS -->
+	<link rel="stylesheet" href="https://js.arcgis.com/3.30/esri/css/esri.css">
+	
+	<!-- jquery CSS -->
+	<link rel="stylesheet" media="all" href="css/vendor/jquery-ui-1.10.4.custom.min.css" />
+							
+	<!-- app CSS -->
+	<link rel="stylesheet" href="css/main.css?foo=99999" />
+	<link rel="stylesheet" href="http://localhost/mojo/css/mojo.css?foo=99999" />
+</head>
+<body>
+	<!-- Prompt IE<8 users to install Chrome Frame. -->
+	<!--[if lt IE 8]>
+		<div id="oldbrowserwarn">You are using an old browser. <a href="http://whatbrowser.org/">Upgrade your browser </a> for a better experience.</div>
+	<![endif]-->
+
+	<div id="container">
+		<!-- Header area -->
+		<header>
+			<!-- Toggle -->
+			<div id="toggle">
+				<input type="radio" id="maplayerstoggle" name="toggle-button" value="maplayers" checked />
+				<label for="maplayerstoggle">Layers</label>
+				<input type="radio" id="proptoggle" name="toggle-button" value="prop" />
+				<label for="proptoggle">Prop</label>
+				<input type="radio" id="glossarytoggle" name="toggle-button" value="glossary" />
+				<label for="glossarytoggle">Glossary</label>
+				<input type="radio" id="managetoggle" name="toggle-button" value="manage" />
+				<label for="managetoggle">Manage Comments</label>
+			</div>	
+		</header>
+		
+		<!-- Map -->
+		<div id="map">
+			<!-- Search -->
+			<div id="searchdiv" class="screen-only shadow" >
+				<div id="searchbtn">
+				</div>
+				<div id="searchclear">
+				</div>
+				<div id = "searchinputdiv" >
+					<input id="searchinput" placeholder="Type Address/Parcel ID/Owner Name/Lndmark!"/>
+				</div>
+			</div>
+						
+			<!-- Toolbox -->
+			<div id="toolbox" class="tb shadow">
+			</div>
+			<div id="toolboxContent" class='tbContent shadow hidden'>
+			</div>
+			
+			<!-- Comments Button -->
+			<div id="cmntstool" class="shadow roundedge clickable">
+				<div id="cmntsoff" class="roundedge">
+					Submit Comments
+				</div>
+				<div id="cmntson" class="roundedge hidden">					
+					<div class="alignleft"><b>Submit Comments</b></div> 
+					<div id="cmntsclose" class="alignright">
+						<img src="image/close-icon.png"/>
+					</div>
+					<div id="cmntsmsg">Click on map to add comment</div>
+				</div>
+			</div>
+		
+			<!-- Basemap Toggle -->
+			<div id="basemaptoggle">
+			</div>
+		</div>
+		
+		<!-- Aside -->
+		<aside>
+			<!-- Map Toggle -->
+			<input type="button" id="maptoggle" value="Show Map"/>
+			
+			<!-- Floodmaps -->
+			<div id="maplayerscont" class="cont">
+				<!-- notice -->
+				<div class="note">
+					Comment Tool for Phase-4 maps available<br/>May 15 2019 - TBD
+				</div>
+				
+				<!-- non floodmap container -->
+				<div id="layerscont" class="switcher">
+					<div class="fcont">
+						<div id="overlays"></div>
+					</div>
+					<div class="fcont">						
+						<div id="inoutfldmaps"></div>
+					</div>
+					<!--<div class="fcont">-->
+						<div id="floodriskmaps" class="hidden"></div>
+					<!--</div>-->	
+					<div class="fcont">
+						<div id="proposedfldmaps"></div>
+					</div>
+					<div class="fcont">
+						<div id="currentfldmaps"></div>
+					</div>
+					<div class="fcont">
+						<div id="3dfldmaps"></div>
+					</div>
+				</div>
+			</div>
+					
+			<!-- Property and Risk Information -->
+			<div id="propcont" class="cont hidden">
+				<!-- notice -->
+				<!--<div class="note">
+					Comment Tool for Phase-3 maps available<br/>August 29 - October 18, 2014
+				</div>-->
+				
+				<!-- Back to results -->
+				<div id="backtoresults" class="cont topzero hidden">
+					<a href="javascript:void(0);" onclick="backToResults();">Back to search results</a>
+				</div>
+				
+				<div id="errorcont" class="cont textcenter note">
+					No property selected.
+				</div>	
+									
+				<!-- property information container -->
+				<div id="propinfocont" class="fcont hidden">
+					<div id="propkey"></div>
+					<div class="cycle-slideshow"  
+							data-cycle-fx=scrollHorz
+							data-cycle-timeout=0
+							data-cycle-caption="#alt-caption"
+							data-cycle-caption-template="{{alt}}">
+					</div>
+					<div id="alt-caption" class="center"></div>
+					<div id="streetviewlink"></div>
+					<div id="birdseyelink"></div>
+				</div>
+				<div id="riskcont" class="fcont hidden">
+				</div>
+				
+				<!-- Search Results -->
+				<div id="searchresultscont" class="hidden">
+				</div>
+			</div>	
+			
+			<!-- Glossary -->
+			<div id="glossarycont" class="cont hidden">
+				<h4>Glossary</h4><p>Below is a list of terms that are used when using this website. They have been written to provide a general understanding of the various concepts found on this website. For a more formal definition of these and other floodplain related terms view local <a href="http://charmeck.org/stormwater/regulations/Pages/default.aspx" target="_blank">Floodplain Ordinances</a>.</p>
+			</div>
+			
+			<!-- Manage Comments -->
+			<div id="managecont" class="cont hidden">
+				<div id="managelogin" class="cont">
+				</div>
+				<div id="managerows" class="cont">
+				</div>
+			</div>
+		</aside>
+	</div>	
+	
+	<!-- Configure Dojo -->
+	<script type="text/javascript">
+		var dojoConfig = {
+			// The locationPath logic below may look confusing but all its doing is 
+			// enabling us to load the api from a CDN and load local modules from the correct location.
+			packages: [{
+				name: "mojo",
+				location: "http://localhost/mojo"
+			}]
+		};
+	</script>
+						
+	<!-- Library scripts -->
+	<script src="https://js.arcgis.com/3.30compact/"></script>
+	<script src="js/vendor/jquery-1.11.0.min.js"></script>
+	<script src="js/vendor/jquery-ui-1.10.4.custom.min.js"></script>
+	<script src="js/vendor/jquery.cycle2.js"></script>
+	
+	<!-- app specific scripts -->
+	<script src="js/config.js"></script><script src="js/format.js"></script><script src="js/plugins.js"></script><script src="js/standardize_address.js"></script><script src="js/map.js"></script><script src="js/main.js"></script>
+					
+	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+	<script>
+		(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+		function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+		e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+		e.src='//www.google-analytics.com/analytics.js';
+		r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+		ga('create','UA-18960462-1');ga('send','pageview');
+	</script>
+</body>
+</html>

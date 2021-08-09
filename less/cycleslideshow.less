@@ -1,0 +1,119 @@
+/*cycle 2 css*/
+
+.cycle-slideshow {
+	position: relative;
+	width: 100%; 
+	min-width: 200px; 
+	max-width: 500px; 
+	margin: 0 auto; 
+	padding: 0; 
+    background: url(../image/spinner.gif) 50% 50% no-repeat;
+ }
+
+.cycle-slideshow img { /* slideshow images */ 
+    position: absolute; 
+	top: 0; 
+	left: 0;
+    width: 100%; 
+	padding: 0; 
+	display: block;
+	border: 1px solid black;
+}
+
+.cycle-slideshow img:first-child { /* in case script does not load */
+    position: static; 
+	z-index: 100;
+}
+
+.cycle-pager { /* pager */
+	position: absolute; 
+	bottom: 0; 
+	right: 10px;
+	z-index: 500;
+	width: 100%;
+    text-align: right;    
+	overflow: hidden;
+}
+
+.cycle-pager span { 
+	width: 16px; 
+	height: 16px;
+    font-family: arial; 
+	font-size: 50px;  
+	color: #ddd;
+    display: inline-block;  
+	cursor: pointer; 
+}
+
+.cycle-pager span.cycle-pager-active { 
+	color: #D69746;
+}
+
+.cycle-pager > * { 
+	cursor: pointer;
+}
+
+.cycle-caption { /* caption */
+	position: absolute; 
+	bottom: 15px; 
+	right: 15px; 
+	z-index: 700; 
+	color: white;
+}
+
+.cycle-overlay { /* overlay */
+    position: absolute; 
+	bottom: 0; 
+	z-index: 600;
+	width: 100%;
+	padding: 15px;
+	font-family: tahoma, arial;
+    color: white; 
+    background: black;   
+	opacity: .5;
+}
+
+.cycle-prev, .cycle-next { /* prev / next links */
+	position: absolute; 
+	z-index: 800; 
+	height: 100%;
+	top: 0; 
+	width: 30%; 
+	opacity: 0; 
+	filter: alpha(opacity=0);  
+	cursor: pointer; 
+}
+
+.cycle-prev { 
+	left: 0;  
+	background: url(../image/left.png) 50% 50% no-repeat;
+}
+
+.cycle-next { 
+	right: 0; 
+	background: url(../image/right.png) 50% 50% no-repeat;
+}
+
+.cycle-prev:hover, .cycle-next:hover { 
+	opacity: .7; 
+	filter: alpha(opacity=70) 
+}
+
+.disabled { 
+	opacity: .5; 
+	filter:alpha(opacity=50); 
+}
+
+.cycle-paused:after { /* display paused text on top of paused slideshow */
+	position: absolute; 
+	top: 10px; 
+	right: 10px;
+    z-index: 500;
+	padding: 10px;
+	border-radius: 10px;
+	color: white;
+	background: black; 
+    content: 'Paused'; 
+    opacity: .5; 
+	filter: alpha(opacity=50);
+}
