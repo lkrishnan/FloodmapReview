@@ -512,9 +512,53 @@ var riskfacts = {
 		"brief": "There are limits on how much one can spend to renovate or repair a home or business in the regulated floodplain. The limits apply to one-time expenses as well as to multiple projects over a ten year period. If the cost of reconstruction, repairs or an addition equals or goes above 50 percent of the building's market value, then the building must meet the same floodplain construction requirements as a new building. If the structure's lowest floor is below the current base flood elevation, the &quot;substantial improvement rule&quot; applies. The building often must be elevated (raised) above projected flood levels before it is renovated or repaired.",
 		"detailed": "<p>There are limits on how much one can spend to renovate or repair a home or business in the regulated floodplain. The limits apply to one-time expenses as well as to multiple projects over a ten year period. If the cost of reconstruction, repairs or an addition equals or goes above 50 percent of the building's market value, then the building must meet the same floodplain construction requirements as a new building. If the structure's lowest floor is below the current base flood elevation, the &quot;substantial improvement rule&quot; applies. The building often must be elevated (raised) above projected flood levels before it is renovated or repaired.</p>"
 	}
+}, Utils = {
+	getGraphicsExtent: function( graphics ){
+			var geometry, extent, ext;
+
+			require( [ "esri/geometry/Point", "esri/geometry/Extent" ] , function( Point, Extent ){
+				graphics.forEach ( function ( graphic, i ) {
+					geometry = graphic.geometry;
+							
+					if( geometry instanceof Point ){
+						ext = new Extent( parseFloat ( geometry.x ) - 1, parseFloat ( geometry.y ) - 1, 
+							parseFloat( geometry.x ) + 1, parseFloat ( geometry.y ) + 1, geometry.spatialReference );
+					}else if( geometry instanceof Extent ){ 
+						ext = geometry;
+					}else{
+						ext = geometry.getExtent( );
+					}	
+
+					if( extent ){ 
+						extent = extent.union( ext );
+					}else{ 
+						extent = new Extent( ext );
+					}	
+				} );	
+			} );
+		
+			return extent;
+		}
+		
 }, zoom = {
+	toExtent: function( extent ){
+		//done to work properly, when zooming to the extent of a point with a dynamic mapservice as the basemap
+		if( extent.xmax - extent.xmin < 100 ){ 
+			extent.xmin -= 100 - ( extent.xmax - extent.xmin );
+			extent.xmax += 100 + ( extent.xmax - extent.xmin );
+		}
+		
+		if(extent.ymax - extent.ymin < 100){
+			extent.ymin -= 100 - ( extent.ymax - extent.ymin );
+			extent.ymax += 100 + ( extent.ymax - extent.ymin );	
+		}
+			
+		map.setExtent( extent.expand( 2 ) );
+	},
+	
 	toCenter: function(mapCenter, zoomlevel){
 		map.setLevel( zoomlevel );
 		map.centerAt( mapCenter );
 	}
+	
 };

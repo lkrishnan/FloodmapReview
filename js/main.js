@@ -42,7 +42,7 @@ require ( [
 		map = new Map( "map", { 
 				extent : new Extent ( config.initial_extent ),
 				minScale: config.min_scale,
-				maxScale: config.max_scale,				
+				//maxScale: config.max_scale,				
 				logo : false, 
 				zoom: 1 
 			} );

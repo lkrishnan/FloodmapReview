@@ -1,12 +1,11 @@
 {
   "name": "fmr",
   "version": "1.0.0",
-  "description": "",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Lak Krishnan",
   "license": "ISC",
   "dependencies": {
     "del": "^4.1.1",
@@ -18,5 +17,14 @@
     "gulp-less": "^4.0.1",
     "gulp-replace": "^1.0.0",
     "gulp-uglify": "^3.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lkrishnan/FloodmapReview.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lkrishnan/FloodmapReview/issues"
+  },
+  "homepage": "https://github.com/lkrishnan/FloodmapReview#readme",
+  "description": ""
 }

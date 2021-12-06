@@ -933,8 +933,16 @@ function addGraphics ( data ) {
 																							
 						//zoom to add feature
 						if ( zoomToGraphic )
-							zoom.toCenter ( new Point ( data.x, data.y, 
-								new SpatialReference ( config.initial_extent.spatialReference ) ), 7 );	
+							var extent  = Utils.getGraphicsExtent( [ parcelGraphic ] );
+
+							if( extent.xmax !== extent.xmax || extent.xmin !== extent.xmin || extent.ymax !== extent.ymax || extent.ymin !== extent.ymin ){
+								extent = new Extent( parseFloat( data.x ) - 1, parseFloat( data.y ) - 1, 
+									parseFloat( data.x ) + 1, parseFloat( data.y ) + 1, parcelGraphic.geometry.spatialReference );
+							} 	
+							
+							zoom.toExtent( extent );
+							//zoom.toCenter ( new Point ( data.x, data.y, 
+							//	new SpatialReference ( config.initial_extent.spatialReference ) ), 7 );	
 							
 					}		
 				
