@@ -17,7 +17,7 @@ var config = {
 		"street_tiles": { 
 			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/basemap/MapServer"
 		}, "aerial_tiles": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/aerial2021/MapServer"
+			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/aerial2022/MapServer"
 		}, "aerialtop_tiles": { 
 			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/basemap_aerial/MapServer"
 		}, "topohillshade_tiles": { 

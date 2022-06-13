@@ -857,7 +857,7 @@ function setPropInfo( data ){
 				handleAs: "json",
 				headers: { "X-Requested-With": "" },
 				query: {
-					"source": "elevation_certificates",
+					"source": "ec_v2",
 					"tax_pid" : guessPIDinMAT( data.taxpid, data.groundpid )
 				}
 			} ),
@@ -981,24 +981,28 @@ function setPropInfo( data ){
 			if( photos.length > 0 ){
 				photos.forEach( function( item, i ){
 					if( item.photo_url.trim( ).length > 0 ){
-						if( item.attribution === "Historic"){
-							//if the property photo exisits at the location add it
-							imageExists( item.photo_url, function( exists ){
-								if( exists ){
+						//if the property photo exisits at the location add it
+						imageExists( item.photo_url, function( exists ){
+							if( exists ){
+								if( item.attribution === "Historic"){
+							
 									var imgdate = item.photo_date;
 
 									$( ".cycle-slideshow" ).cycle( "add", "<img src='" + item.photo_url + "' " +
 										"alt='<i>Photo Date: " + imgdate.substring( 4, 6 ) + "/" + imgdate.substring( 6, 8 ) + "/" + imgdate.substring( 0, 4 ) + " Source: " + item.attribution + "</i>" +
 										( photos.length > 1 ? "</br>Hover over left / right of photo to goto prev / next." : "" ) + "'/>" );
-								}
-							} );
-						}else{ 
-							var imgdate = item.photo_date;
+								}else{ 
+									var imgdate = item.photo_date;
 
-							$( ".cycle-slideshow" ).cycle( "add", "<img src='" + switchQueryParams( item.photo_url, { w: 600, h: 450 } ) + "' " +
-								"alt='<i>Photo Date: " + imgdate.substring( 4, 6 ) + "/" + imgdate.substring( 6, 8 ) + "/" + imgdate.substring( 0, 4 ) + " Source: " + item.attribution + "</i>" +
-								( photos.length > 1 ? "</br>Hover over left / right of photo to goto prev / next." : "" ) + "'/>" );
-						}	
+									$( ".cycle-slideshow" ).cycle( "add", "<img src='" + switchQueryParams( item.photo_url, { w: 600, h: 450 } ) + "' " +
+										"alt='<i>Photo Date: " + imgdate.substring( 4, 6 ) + "/" + imgdate.substring( 6, 8 ) + "/" + imgdate.substring( 0, 4 ) + " Source: " + item.attribution + "</i>" +
+										( photos.length > 1 ? "</br>Hover over left / right of photo to goto prev / next." : "" ) + "'/>" );
+								}
+								
+							}
+							
+						} );
+							
 					}
 				} );	
 			}		
@@ -1016,8 +1020,9 @@ function setPropInfo( data ){
 				ffe = parseFloat( elevdata[ 0 ].ffe ); 
 				lag = parseFloat( elevdata[ 0 ].lag );
 			}
-			
+			console.log( riskdata )
 			if( riskdata.features.length > 0 ){
+				console.log( "here" )
 				field_values = riskdata.features[ 0 ].attributes;
 				query( "#riskcont" ).innerHTML( "<h5>Flood Risk Information</h5>" );
 				query( "#riskcont" ).append( boxit( riskfacts.updatedfloodrisk.fact, riskfacts.updatedfloodrisk.icon, "icont", [ field_values.RiskChange ] ) );
