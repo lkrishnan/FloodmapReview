@@ -117,6 +117,7 @@ function serviceInit( ){
 				agsServices.push( new IdentifyTask ( config.identify_services [ identify_service ].url ) );
 				serviceNames.push( identify_service );
 			}
+
 		} 
 	);
 }
@@ -144,6 +145,9 @@ function mapCtrlsInit( ){
 			
 			query ( "#overlays" ).append ( "<ul>" + htmlstr + "</ul>" );
 			layerSwitcherZoomCheck();
+
+			// Initalize manage content form
+			showLoginForm( );
 						
 			//create the 3d flood map switcher
 			query ( "#3dfldmaps" ).append (
@@ -621,8 +625,7 @@ function mapCtrlsInit( ){
 									idParams = new IdentifyParameters( );
 									idParams.tolerance = 0;
 									idParams.returnGeometry = false;
-									//idParams.layerIds = [ 43, 44, 45, 46, 47, 48, 49, 50, 51 ];
-									idParams.layerIds = [ 43, 44, 45, 52, 53, 54, 55, 56, 51 ];
+									idParams.layerIds = [ 43, 44, 45, 46, 47, 48, 49, 50, 51];
 									idParams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;	
 									idParams.geometry = event.geometry;
 									idParams.mapExtent = map.extent;
@@ -632,8 +635,8 @@ function mapCtrlsInit( ){
 								
 									if( results.length > 0 ){
 										array.forEach( results, function( item, i ){
-											if( item.feature.attributes[ "Pixel Value" ] != "NoData" && [ 0, 3, 4, 5, 6, 7 ].includes( i, 0 ) ){
-												query( ".tbMain table tbody tr:last-child td:nth-child(" + ( i + 2 ) + ")" ).innerHTML( format.number( item.feature.attributes[ "Pixel Value" ], 1 ) );
+											if( item.feature.attributes[ "Stretch.Pixel Value" ] != "NoData" ){
+												query( ".tbMain table tbody tr:last-child td:nth-child(" + ( i + 2 ) + ")" ).innerHTML( format.number( item.feature.attributes[ "Stretch.Pixel Value"  ], 1 ) );
 											}															
 										} );
 									}
@@ -737,6 +740,7 @@ function mapCtrlsInit( ){
 															null, 
 															null, 
 															function( result ){
+																console.log( result )
 																if( result[ 0 ].success ){
 																	
 																	//send out email notification
@@ -832,7 +836,7 @@ function clickAndSelect ( event ) {
 		if ( !mapTool ) {
 				
 			//do search based on lat lon
-			finder( { "y" : event.mapPoint.y, "x" : event.mapPoint.x } );
+			finder( { "xy" : event.mapPoint.x + "," + event.mapPoint.y } );
 
 			//do not zoom to graphics added to map	
 			zoomToGraphic = false;	
@@ -893,63 +897,51 @@ function addGraphics ( data ) {
 	if ( locationGraphic ) //remove location graphic
 		selectionLayer.remove ( locationGraphic );
 		
-	if ( data.hasOwnProperty ( "groundpid" ) ) { //get ground parcel geometry and add it to map
-	
+	if ( data.hasOwnProperty ( "gisid" ) ) { //get ground parcel geometry and add it to map
 		if ( parcelGraphic ) //remove parcel graphic
 			selectionLayer.remove ( parcelGraphic );
 				
-		require ( [
-			"dojo/request", 
-			"esri/graphic", 
-			"esri/symbols/SimpleFillSymbol", 
-			"esri/symbols/SimpleLineSymbol", 
-			"esri/SpatialReference", 
-			"esri/geometry/Point", 
-			"dojo/_base/Color" ], function ( request, Graphic, SimpleFillSymbol, SimpleLineSymbol, SpatialReference, Point, Color ) {
-				request.get( config.web_service_local + "v1/ws_attributequery.php", {
-					handleAs: "json",
-					headers: { "X-Requested-With": "" },
-					query: 
-					{
-						table: "parcels_py", 
-						fields: "ST_AsText ( shape ) as parcelgeom", 
-						parameters: "pid='" + data.groundpid + "'",
-						source: "gis"					
+		require( [ "dojo/request", "esri/graphic", "esri/symbols/SimpleFillSymbol", 
+			"esri/symbols/SimpleLineSymbol", "esri/SpatialReference", "esri/geometry/Point", 
+			"dojo/_base/Color" ], function( request, Graphic, SimpleFillSymbol, SimpleLineSymbol, SpatialReference, Point, Color ){
+			request.get( `${config.gateway}/api/gis/v1/query/parcels_py`, {
+				handleAs: "json",
+				headers: { "X-Requested-With": "" },
+				query: { 
+					columns: "ST_AsText ( shape ) as parcelgeom", 
+					filter: `pid='${data.gisid}'`
+				}
+
+			} ).then( function( parceldata ){
+				if( parceldata.length > 0 ){
+					//add parcel feature to map
+					parcelGraphic = new Graphic( 
+						parseGeomTxt( parceldata[ 0 ].parcelgeom ), 
+						new SimpleFillSymbol( 
+							SimpleFillSymbol.STYLE_SOLID, 
+							new SimpleLineSymbol( SimpleLineSymbol.STYLE_SOLID, new Color ( [ 0, 255, 102 ] ), 3 ), 
+							new Color( [ 0, 255, 102, 0 ] ) ), 
+							{ "title" : "<h5>Selected Property</h5>", "content": "Parcel ID: " + data.taxpid + "<br/>" + data.address }, 
+								new esri.InfoTemplate ( "${title}", "${content}" ) ) ;
+					selectionLayer.add( parcelGraphic );	
+																						
+					//zoom to add feature
+					if( zoomToGraphic ){
+						var extent  = Utils.getGraphicsExtent( [ parcelGraphic ] );
+
+						if( extent.xmax !== extent.xmax || extent.xmin !== extent.xmin || extent.ymax !== extent.ymax || extent.ymin !== extent.ymin ){
+							extent = new Extent( parseFloat( data.x ) - 1, parseFloat( data.y ) - 1, 
+								parseFloat( data.x ) + 1, parseFloat( data.y ) + 1, parcelGraphic.geometry.spatialReference );
+						} 	
+						
+						zoom.toExtent( extent );
+					
 					}
-				} ).then( function( parceldata ){
-				
-					if ( parceldata.length > 0 ) {
-				
-						//add parcel feature to map
-						parcelGraphic = new Graphic ( 
-							parseGeomTxt ( parceldata[ 0 ].parcelgeom ), 
-							new SimpleFillSymbol ( 
-								SimpleFillSymbol.STYLE_SOLID, 
-								new SimpleLineSymbol ( SimpleLineSymbol.STYLE_SOLID, new Color ( [ 0, 255, 102 ] ), 3 ), 
-								new Color ( [ 0, 255, 102, 0 ] ) ), 
-								{ "title" : "<h5>Selected Property</h5>", "content": "Parcel ID: " + data.taxpid + "<br/>" + data.address }, 
-									new esri.InfoTemplate ( "${title}", "${content}" ) ) ;
-						selectionLayer.add ( parcelGraphic );	
-																							
-						//zoom to add feature
-						if ( zoomToGraphic )
-							var extent  = Utils.getGraphicsExtent( [ parcelGraphic ] );
+				}	
 
-							if( extent.xmax !== extent.xmax || extent.xmin !== extent.xmin || extent.ymax !== extent.ymax || extent.ymin !== extent.ymin ){
-								extent = new Extent( parseFloat( data.x ) - 1, parseFloat( data.y ) - 1, 
-									parseFloat( data.x ) + 1, parseFloat( data.y ) + 1, parcelGraphic.geometry.spatialReference );
-							} 	
-							
-							zoom.toExtent( extent );
-							//zoom.toCenter ( new Point ( data.x, data.y, 
-							//	new SpatialReference ( config.initial_extent.spatialReference ) ), 7 );	
-							
-					}		
-				
-				} );
-			
+			} );
 
-		} );	
+		} );
 
 	} else { //add a location to the map
 	
@@ -976,20 +968,16 @@ function addGraphics ( data ) {
 }
 
 /* Layer Switcher */
-
 function layerSwitcherZoomCheck(){ //enable/disable layer list checkboxes based on map zoom level
-
 	$.each ( config.overlay_controls, function ( index ) {
-	
 		var zoom = map.getZoom();
 		
-		if ( zoom > this.maxZoom || zoom < this.minZoom ) { 
-			
-			$ ( "#" + index ).prop ( "disabled", true ).next().css ( "color", "#D1D0CC" );
+		if( zoom > this.maxZoom || zoom < this.minZoom ) { 
+			$( "#" + index ).prop ( "disabled", true ).next().css ( "color", "#D1D0CC" );
 		
-		} else { 
-			
-			$ ( "#" + index ).prop ( "disabled", false ).next().css ( "color", "inherit" );
+		}else{ 
+			$( "#" + index ).prop ( "disabled", false ).next().css ( "color", "inherit" );
+		
 		}	
 	
 	} );
@@ -1000,7 +988,7 @@ $ ( ".switcher" ).on ( "change", ".layer", function() {
 
 	//set variables
 	var overlay_control = config.overlay_controls [ $ ( this ).prop ( "id" ) ],
-		service =  agsServices[ serviceNames.indexOf ( overlay_control.service ) ];
+		service = agsServices[ serviceNames.indexOf ( overlay_control.service ) ];
 		
 	if ( overlay_control.featurelyr ) { //feature layer
 	
@@ -1014,8 +1002,7 @@ $ ( ".switcher" ).on ( "change", ".layer", function() {
 		
 } );
 
-$ ( ".switcher" ).on ( "change", ".fmap", function() {
-
+$ ( ".switcher" ).on ( "change", ".fmap", function( ){
 	var floodmap_control = config.floodmap_controls [ $ ( this ).prop ( "id" ) ],
 		floodzoneService =  agsServices[ serviceNames.indexOf ( "floodzones" ) ];
 	

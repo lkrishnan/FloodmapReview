@@ -9,7 +9,9 @@ var format = {
 						
 		return num;	
 		
-	}, ownership: function( oname_arr ){
+	}, 
+	
+	ownership: function( oname_arr ){
 		var oname = "";
 		
 		oname_arr[ 1 ] = ( oname_arr[ 1 ] ? oname_arr[ 1 ] : "" ).trim( ); //first name
@@ -26,25 +28,28 @@ var format = {
 		}  
 		return oname;
 		
-	}, ownerlist: function( ownerlist ){
-		var ownerhtml,
-			owners = ownerlist.trim( ).split( "|" );
-			
-		ownerhtml = "1. " + owners[ 0 ].replace ( ";", ", " );
-		for( l = 1;l < owners.length; l++ ){ 
-			if( owners[ l ].trim( ).length > 0 ){
-				ownerhtml += "<br/>" + parseInt ( l + 1, 10 ) + ". " + owners[ l ].replace( ";", ", " );
-			}
+	}, 
+
+	arrAslist: function( arr, prop ){
+		var html = "1. " + arr[ 0 ][ prop ];
+		
+		for( l = 1;l < ( arr.length > 3 ? 3 : arr.length ); l++ ){
+			html += "<br/>" + parseInt ( l + 1, 10 ) + ". " + arr[ l ][ prop ];
+		
 		}
 		
-		return ownerhtml;	
+		return html;	
 		
-	}, latlon: function( val ){
+	},
+	
+	latlon: function( val ){
 		var temp = val.split ( "-" );
 		
 		return temp[ 0 ] + "\u00B0" + temp[ 1 ] + "\'" + temp[ 2 ] + "\'\'";
 		
-	}, leftPad: function( number, targetLength ){
+	}, 
+	
+	leftPad: function( number, targetLength ){
 		var output = number + '';
 		
 		while( output.length < targetLength ){
@@ -53,7 +58,9 @@ var format = {
 		
 		return output;
 		
-	}, jurisdisplay: function( muni ){
+	}, 
+	
+	jurisdisplay: function( muni ){
 		switch( muni.toUpperCase( ) ){
 			case "CHAR":
 				return "CHARLOTTE"; 
@@ -96,7 +103,9 @@ var format = {
 				break;
 		}
 		
-	}, address: function( hnum, prefix, sname, roadtype, suffix, unit, city, state, zip ){
+	}, 
+	
+	address: function( hnum, prefix, sname, roadtype, suffix, unit, city, state, zip ){
 		var addr = "";
 		
 		if( $.trim ( hnum ).length > 0 ) 
@@ -128,7 +137,9 @@ var format = {
 		
 		return addr;		
 	
-	}, readableDate: function( inputDate, dateFormat ){
+	}, 
+	
+	readableDate: function( inputDate, dateFormat ){
 		var readableDate = "",
 			dateFormat = ( dateFormat ? dateFormat.toUpperCase( ) : "MM/DD/YYYY" ),
 			m = "" + ( inputDate.getMonth( ) + 1 ),
@@ -191,5 +202,8 @@ var format = {
 
 		return readableDate; 
 		
-	}	
+	},
+	
+	theDate: dateString => new Date( dateString ).toLocaleDateString( "en-US", { month: "2-digit", day: "2-digit", year: "numeric" } )
+
 }

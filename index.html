@@ -41,8 +41,8 @@
 				<label for="proptoggle">Prop</label>
 				<input type="radio" id="glossarytoggle" name="toggle-button" value="glossary" />
 				<label for="glossarytoggle">Glossary</label>
-				<input type="radio" id="managetoggle" name="toggle-button" value="manage" />
-				<label for="managetoggle">Manage Comments</label>
+				<!--<input type="radio" id="managetoggle" name="toggle-button" value="manage" />
+				<label for="managetoggle">Manage Comments</label>-->
 			</div>	
 		</header>
 		
@@ -66,7 +66,7 @@
 			</div>
 			
 			<!-- Comments Button -->
-			<div id="cmntstool" class="shadow roundedge clickable">
+			<!--<div id="cmntstool" class="shadow roundedge clickable">
 				<div id="cmntsoff" class="roundedge">
 					Submit Comments
 				</div>
@@ -77,7 +77,7 @@
 					</div>
 					<div id="cmntsmsg">Click on map to add comment</div>
 				</div>
-			</div>
+			</div>-->
 		
 			<!-- Basemap Toggle -->
 			<div id="basemaptoggle">
@@ -92,9 +92,9 @@
 			<!-- Floodmaps -->
 			<div id="maplayerscont" class="cont">
 				<!-- notice -->
-				<div class="note">
+				<!--<div class="note">
 					Comment Tool for Phase-4 maps available<br/>May 15 2019 - TBD
-				</div>
+				</div>-->
 				
 				<!-- non floodmap container -->
 				<div id="layerscont" class="switcher">
@@ -138,13 +138,7 @@
 				<!-- property information container -->
 				<div id="propinfocont" class="fcont hidden">
 					<div id="propkey"></div>
-					<div class="cycle-slideshow"  
-							data-cycle-fx=scrollHorz
-							data-cycle-timeout=0
-							data-cycle-caption="#alt-caption"
-							data-cycle-caption-template="{{alt}}">
-					</div>
-					<div id="alt-caption" class="center"></div>
+					<div id="photo" class="textcenter"></div>
 					<div id="streetviewlink"></div>
 					<div id="birdseyelink"></div>
 				</div>
@@ -162,12 +156,12 @@
 			</div>
 			
 			<!-- Manage Comments -->
-			<div id="managecont" class="cont hidden">
+			<!--<div id="managecont" class="cont hidden">
 				<div id="managelogin" class="cont">
 				</div>
 				<div id="managerows" class="cont">
 				</div>
-			</div>
+			</div>-->
 		</aside>
 	</div>	
 	
@@ -184,10 +178,9 @@
 	</script>
 						
 	<!-- Library scripts -->
-	<script src="https://js.arcgis.com/3.30compact/"></script>
+	<script src="https://js.arcgis.com/3.46compact/"></script>
 	<script src="js/vendor/jquery-1.11.0.min.js"></script>
 	<script src="js/vendor/jquery-ui-1.10.4.custom.min.js"></script>
-	<script src="js/vendor/jquery.cycle2.js"></script>
 	
 	<!-- app specific scripts -->
 	<script src="js/config.js"></script><script src="js/format.js"></script><script src="js/plugins.js"></script><script src="js/standardize_address.js"></script><script src="js/map.js"></script><script src="js/main.js"></script>

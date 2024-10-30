@@ -9,46 +9,46 @@ var config = {
 	"min_scale": 425000, 
 	"max_scale": 600,
 	"basemap_services": {
-		basemap: "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/basemap/MapServer",
-		basemap_aerial: "http://polaris3g.mecklenburgcountync.gov/polarisv/rest/services/basemap_aerial/MapServer",
-		topo: "http://polaris3g.mecklenburgcountync.gov/polarisv/rest/services/topohillshade/MapServer"
+		basemap: "https://meckgis.mecklenburgcountync.gov/server/rest/services/Basemap/Basemap/MapServer",
+		basemap_aerial: "https://meckgis.mecklenburgcountync.gov/server/rest/services/Basemap/BasemapAerial/MapServer",
+		topo: "https://meckgis.mecklenburgcountync.gov/server/rest/services/Basemap/TopoHillShade/MapServer"
 	}, 
 	"tiled_services": {
 		"street_tiles": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/basemap/MapServer"
+			"url": "https://meckgis.mecklenburgcountync.gov/server/rest/services/Basemap/Basemap/MapServer"
 		}, "aerial_tiles": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/aerial2023/MapServer"
+			"url": "https://meckaerial.mecklenburgcountync.gov/server/rest/services/aerial2024/MapServer"
 		}, "aerialtop_tiles": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/basemap_aerial/MapServer"
+			"url": "https://meckgis.mecklenburgcountync.gov/server/rest/services/Basemap/BasemapAerial/MapServer"
 		}, "topohillshade_tiles": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/topohillshade/MapServer"
+			"url": "https://meckgis.mecklenburgcountync.gov/server/rest/services/Basemap/TopoHillShade/MapServer"
 		}
 	}, 
 	"dynamic_services": {
 		"transparent_overlays": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodoverlaystransparentfgdb/MapServer", 
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodOverlaysTransparent/MapServer", 
 			"opacity": "0.5", 
 			"visiblelyrs": [ -1 ]
 		}, "floodzones": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodmapsfgdb/MapServer", 
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodMaps/MapServer", 
 			"opacity": "1.0", 
 			"visiblelyrs": [ 2, 6 ] 
 		}, "overlays": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodoverlaysfgdb/MapServer", 
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodOverlays/MapServer", 
 			"opacity": "1.0", 
 			"visiblelyrs": [ 2, 5, 9, 10, 12, 13 ]
 		} 
 	}, 
 	"feature_services": {
 		"fmr_comments": {
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/fmr/FeatureServer/0",
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FMR/FeatureServer/0",
 			"fields": [ "name", "email", "dateenter", "status", "comment", "response" ],
 			"popupTitle": "<h5>User Comment</h5>",
 			"popupTemplate": "${comment}",
 			"visible": false,
 			"mode": "snapshot"	
 		}, "loma_points" : {
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodoverlaysfgdb/MapServer/0",
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodOverlays/MapServer/0",
 			"fields": [ "case_numbe" ],
 			"popupTitle": "<h5>Structure not in<br/>Floodplain by FEMA Letter</h5>",
 			"popupTemplate" :
@@ -56,11 +56,11 @@ var config = {
 			"visible": true,
 			"mode": "ondemand"					
 		}, "firm_ref_points": {
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodoverlaysfgdb/MapServer/1",
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodOverlays/MapServer/1",
 			"fields": [ "ID", "Point_Desi", "Elevation_", "northing_1", "easting__m", "latitude", "longitude", "monument_d", "drive__to_", "comments" ],
 			"popupTitle": "<h5>FIRM Reference Point</h5>",
 			"popupTemplate":
-				"<div class='textright'><a href = 'http://meckmap.mecklenburgcountync.gov/3dfz/services/firmreport.php?id=${ID}' target='_blank'>Download Report</a></div>" +
+				"<div class='textright'><a href = 'https://gateway.mecklenburgcountync.gov/pdf/3dfz/firm?id=${ID}' target='_blank'>Download Report</a></div>" +
 				"<table class = 'pup'>" +
 					"<tr>" + 
 						"<th>ID</th><td>${ID}</td>" +
@@ -91,7 +91,7 @@ var config = {
 			"visible": false,
 			"mode": "ondemand"						
 		}, "xsections_preliminary":	{
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodoverlaysfgdb/MapServer/6", 
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodOverlays/MapServer/6", 
 			"fields": [ "cross_sect", "stream_stn", "profiles", "existing_d", "future_dis", "x00_year_e", "x00_year_f", "left_fldw", "right_fldw", "left_com", "right_com" ],
 			"popupTitle": "<h5>Cross Section ${cross_sect} <br/> Flood Hazard Data </h5>",
 			"popupTemplate" :
@@ -120,11 +120,11 @@ var config = {
 			"visible": false,
 			"mode": "ondemand"						
 		}, "xsections": {
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodoverlaysfgdb/MapServer/7", 
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodOverlays/MapServer/7", 
 			"fields": [ "cross_sect", "stream_stn", "profiles", "existing_d", "future_dis", "x00_year_e", "x00_year_f", "left_fldw", "right_fldw", "left_com", "right_com" ],
 			"popupTitle": "<h5>Cross Section ${cross_sect} <br/> Flood Hazard Data </h5>",
 			"popupTemplate":
-				"<div class='textright'><a href='https://mecklenburgcounty.exavault.com/p/stormwater/Floodplain%20Mapping/Effective%20Data/FIS/Profiles/${profiles}.pdf' target='_blank'>Download Profile</a></div>" +
+				"<div class='textright'><a href='${Model_Name}' target='_blank'>Download HEC-RAS Model</a></div>" +
 				"<table class = 'pup'>" +
 					"<tr><th>Cross Section</th><th>Stream Station</th></tr>" + 
 					"<tr><td>${cross_sect}</td><td>${stream_stn}</td></tr>" + 
@@ -153,15 +153,16 @@ var config = {
 	}, 
 	"identify_services": {
 		"idfloodzones": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodmapsfgdb/MapServer"
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodMaps/MapServer"
 		}, "idoverlays": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodoverlaysfgdb/MapServer"
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodOverlays/MapServer"
 		}, "idoverlaystrans": { 
-			"url": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/floodoverlaystransparentfgdb/MapServer"
-		} 
+			"url": "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/FloodOverlaysTransparent/MapServer"
+		}  
 	}, 
-	"geometry_service": "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/Utilities/Geometry/GeometryServer",
+	"geometry_service": "https://meckags.mecklenburgcountync.gov/server/rest/services/Utilities/Geometry/GeometryServer",
 	"web_service_local": "../ws/php/",
+	"gateway": "https://gateway.mecklenburgcountync.gov",
 	"overlay_controls" : [
 		{
 			name: "User Comments",

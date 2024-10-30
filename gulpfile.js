@@ -71,7 +71,7 @@ gulp.task( "htmltobuild", ( ) => {
     return gulp.src ( paths.htmls )
         .pipe ( replace ( /<script src="js\/config.js"><\/script><script src="js\/format.js"><\/script><script src="js\/plugins.js"><\/script><script src="js\/standardize_address.js"><\/script><script src="js\/map.js"><\/script><script src="js\/main.js"><\/script>/g, "<script src=\"js/fmr.js?foo=99999\"></script>" ) )
 		.pipe ( replace ( /foo=[0-9]*/g, "foo=" + Math.floor ( ( Math.random() * 100000 ) + 1 ) ) )
-		.pipe( replace ( /http:\/\/localhost\/mojo/g, "https://maps.mecklenburgcountync.gov/mojo" ) ) 
+		.pipe( replace ( /http:\/\/localhost\/mojo/g, "https://gis.mecklenburgcountync.gov/mojo" ) ) 
 		.pipe ( gulp.dest ( "build/" ) );
 } );
 
@@ -93,5 +93,5 @@ gulp.task( "default", gulp.series( "customjstobuild", "vendorjstobuild", "csstob
 //publish website
 gulp.task( "publish", function( ){
 	return gulp.src( "build/**/*.*" )
-	.pipe( gulp.dest ( "//gisags2v/c$/inetpub/wwwroot/fmr" ) );
+	.pipe( gulp.dest ( "//sus-gis-p-app1/c$/inetpub/wwwroot/fmr" ) );
 } );
